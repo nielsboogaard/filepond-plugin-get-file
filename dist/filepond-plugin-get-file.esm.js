@@ -9,12 +9,19 @@
 /**
  * Register the download component by inserting the download icon
  */
-const registerDownloadComponent = (item, el, labelButtonDownload) => {
+const registerDownloadComponent = (
+  item,
+  el,
+  labelButtonDownload,
+  allowDownloadByUrl
+) => {
   const info = el.querySelector('.filepond--file-info-main'),
     downloadIcon = getDownloadIcon(labelButtonDownload);
 
   info.prepend(downloadIcon);
-  downloadIcon.addEventListener('click', () => downloadFile(item));
+  downloadIcon.addEventListener('click', () =>
+    downloadFile(item, allowDownloadByUrl)
+  );
 };
 
 /**
@@ -30,18 +37,23 @@ const getDownloadIcon = labelButtonDownload => {
 /**
  * Triggers the actual download of the uploaded file
  */
-const downloadFile = item => {
-  // create a temporary hyperlink to force the browser to download the file
-  const a = document.createElement('a');
-  const url = window.URL.createObjectURL(item.file);
-  document.body.appendChild(a);
-  a.style.display = 'none';
-  a.href = url;
-  a.download = item.file.name;
-  a.click();
+const downloadFile = (item, allowDownloadByUrl) => {
+  // if client want to download file from remote server
+  if (allowDownloadByUrl) {
+    location.href = item.getMetadata('url'); // full path to remote server is stored in metadata with key 'url'
+  } else {
+    // create a temporary hyperlink to force the browser to download the file
+    const a = document.createElement('a');
+    const url = window.URL.createObjectURL(item.file);
+    document.body.appendChild(a);
+    a.style.display = 'none';
+    a.href = url;
+    a.download = item.file.name;
+    a.click();
 
-  window.URL.revokeObjectURL(url);
-  a.remove();
+    window.URL.revokeObjectURL(url);
+    a.remove();
+  }
 };
 
 /**
@@ -71,7 +83,15 @@ const plugin = fpAPI => {
       }
 
       const labelButtonDownload = root.query('GET_LABEL_BUTTON_DOWNLOAD_ITEM');
-      registerDownloadComponent(item, root.element, labelButtonDownload);
+
+      const allowDownloadByUrl = root.query('GET_ALLOW_DOWNLOAD_BY_URL');
+
+      registerDownloadComponent(
+        item,
+        root.element,
+        labelButtonDownload,
+        allowDownloadByUrl
+      );
     };
 
     // start writing
@@ -94,7 +114,8 @@ const plugin = fpAPI => {
   // expose plugin
   return {
     options: {
-      labelButtonDownloadItem: ['Download file', Type.STRING]
+      labelButtonDownloadItem: ['Download file', Type.STRING],
+      allowDownloadByUrl: [false, Type.BOOLEAN]
     }
   };
 };
