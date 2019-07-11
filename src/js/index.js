@@ -29,7 +29,10 @@ const plugin = fpAPI => {
             }
 
             const labelButtonDownload = root.query('GET_LABEL_BUTTON_DOWNLOAD_ITEM');
-            registerDownloadComponent(item, root.element, labelButtonDownload);
+
+            const allowDownloadByUrl = root.query('GET_ALLOW_DOWNLOAD_BY_URL');
+
+            registerDownloadComponent(item, root.element, labelButtonDownload, allowDownloadByUrl);
         };
 
         // start writing
@@ -49,7 +52,8 @@ const plugin = fpAPI => {
     // expose plugin
     return {
         options: {
-            labelButtonDownloadItem: ['Download file', Type.STRING]
+            labelButtonDownloadItem: ['Download file', Type.STRING],
+            allowDownloadByUrl: [false, Type.BOOLEAN],
         }
     };
 };
