@@ -44,7 +44,8 @@ The label of the download icon can be adjusted as follows:
 ```js
 const pond = FilePond.create({
     name: 'filepond',
-    labelButtonDownloadItem: 'custom label' // by default 'Download file'
+    labelButtonDownloadItem: 'custom label', // by default 'Download file'
+    allowDownloadByUrl: false, // by default downloading by URL disabled
 });
 ```
 
