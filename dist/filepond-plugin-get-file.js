@@ -1,5 +1,5 @@
 /*!
- * FilePondPluginGetFile 1.0.1
+ * FilePondPluginGetFile 1.0.2
  * Licensed under MIT, https://opensource.org/licenses/MIT/
  * Please visit undefined for details.
  */
