@@ -22,6 +22,10 @@ Then import in your project:
 import * as FilePond from 'filepond';
 import FilePondPluginGetFile from 'filepond-plugin-get-file';
 ```
+Also, don't forget to import the belonging styles:
+```css
+@import '~filepond-plugin-get-file/dist/filepond-plugin-get-file.min.css';
+```
 
 Register the plugin:
 ```js
