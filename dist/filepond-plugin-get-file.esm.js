@@ -1,5 +1,5 @@
 /*!
- * FilePondPluginGetFile 1.0.2
+ * FilePondPluginGetFile 1.0.3
  * Licensed under MIT, https://opensource.org/licenses/MIT/
  * Please visit undefined for details.
  */
@@ -27,7 +27,7 @@ const registerDownloadComponent = (
 /**
  * Generates the download icon
  */
-const getDownloadIcon = labelButtonDownload => {
+const getDownloadIcon = (labelButtonDownload) => {
   let icon = document.createElement('span');
   icon.className = 'filepond--download-icon';
   icon.title = labelButtonDownload;
@@ -59,12 +59,12 @@ const downloadFile = (item, allowDownloadByUrl) => {
 /**
  * Download Plugin
  */
-const plugin = fpAPI => {
+const plugin = (fpAPI) => {
   const { addFilter, utils } = fpAPI;
   const { Type, createRoute } = utils;
 
   // called for each view that is created right after the 'create' method
-  addFilter('CREATE_VIEW', viewAPI => {
+  addFilter('CREATE_VIEW', (viewAPI) => {
     // get reference to created view
     const { is, view, query } = viewAPI;
 
@@ -98,7 +98,7 @@ const plugin = fpAPI => {
     view.registerWriter(
       createRoute(
         {
-          DID_LOAD_ITEM: didLoadItem
+          DID_LOAD_ITEM: didLoadItem,
         },
         ({ root, props }) => {
           const { id } = props;
@@ -115,8 +115,8 @@ const plugin = fpAPI => {
   return {
     options: {
       labelButtonDownloadItem: ['Download file', Type.STRING],
-      allowDownloadByUrl: [false, Type.BOOLEAN]
-    }
+      allowDownloadByUrl: [false, Type.BOOLEAN],
+    },
   };
 };
 
