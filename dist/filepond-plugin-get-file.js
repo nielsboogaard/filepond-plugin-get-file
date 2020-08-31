@@ -1,5 +1,5 @@
 /*!
- * FilePondPluginGetFile 1.0.3
+ * FilePondPluginGetFile 1.0.4
  * Licensed under MIT, https://opensource.org/licenses/MIT/
  * Please visit undefined for details.
  */
@@ -11,7 +11,9 @@
     ? (module.exports = factory())
     : typeof define === 'function' && define.amd
     ? define(factory)
-    : ((global = global || self), (global.FilePondPluginGetFile = factory()));
+    : ((global =
+        typeof globalThis !== 'undefined' ? globalThis : global || self),
+      (global.FilePondPluginGetFile = factory()));
 })(this, function () {
   'use strict';
 
