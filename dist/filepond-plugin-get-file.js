@@ -11,9 +11,7 @@
     ? (module.exports = factory())
     : typeof define === 'function' && define.amd
     ? define(factory)
-    : ((global =
-        typeof globalThis !== 'undefined' ? globalThis : global || self),
-      (global.FilePondPluginGetFile = factory()));
+    : ((global = global || self), (global.FilePondPluginGetFile = factory()));
 })(this, function () {
   'use strict';
 
