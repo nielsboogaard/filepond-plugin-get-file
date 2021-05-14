@@ -27,8 +27,9 @@
     allowDownloadByUrl
   ) => {
     const info = el.querySelector('.filepond--file-info-main'),
-      downloadIcon = getDownloadIcon(labelButtonDownload);
-    info.prepend(downloadIcon);
+      downloadIcon = getDownloadIcon(labelButtonDownload),
+      filenameElement = getFilenameElement(item);
+    info.replaceChildren(downloadIcon, filenameElement);
     downloadIcon.addEventListener('click', () =>
       downloadFile(item, allowDownloadByUrl)
     );
@@ -42,6 +43,20 @@
     icon.className = 'filepond--download-icon';
     icon.title = labelButtonDownload;
     return icon;
+  };
+  /**
+   * Generates the filename element
+   */
+
+  const getFilenameElement = (item) => {
+    const element = document.createElement('span');
+    const filename = item.getMetadata('filename')
+      ? item.getMetadata('filename')
+      : item.filename;
+    element.className = 'filepond--file-name';
+    element.title = filename;
+    element.innerHTML = filename;
+    return element;
   };
   /**
    * Triggers the actual download of the uploaded file
