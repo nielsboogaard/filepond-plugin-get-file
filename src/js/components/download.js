@@ -3,9 +3,10 @@
  */
 export const registerDownloadComponent = (item, el, labelButtonDownload, allowDownloadByUrl) => {
     const info = el.querySelector('.filepond--file-info-main'),
-          downloadIcon = getDownloadIcon(labelButtonDownload);
+          downloadIcon = getDownloadIcon(labelButtonDownload),
+          filenameElement = getFilenameElement(item);
 
-    info.prepend(downloadIcon);
+    info.replaceChildren(downloadIcon, filenameElement);
     downloadIcon.addEventListener("click", () => downloadFile(item, allowDownloadByUrl));
 }
 
@@ -18,6 +19,20 @@ export const getDownloadIcon = (labelButtonDownload) => {
     icon.title = labelButtonDownload;
     return icon;
 }
+
+/**
+ * Generates the filename element
+ */
+
+const getFilenameElement = (item) => {
+  const element = document.createElement('span');
+  const filename = item.getMetadata('filename') ? item.getMetadata('filename') : item.filename
+  element.className = 'filepond--file-name';
+
+  element.title = filename;
+  element.innerHTML = filename;
+  return element;
+};
 
 /**
  * Triggers the actual download of the uploaded file

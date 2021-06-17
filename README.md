@@ -43,6 +43,11 @@ document.body.appendChild(pond.element);
  The functionality will become active after uploading a file.
 
 ## Configuration
+To customize the file name (to the right of the download icon) you can add a metadata to the filepond file object. Example:
+```js
+file.setMetadata('filename', 'test.png')
+```
+
 
 The label of the download icon can be adjusted as follows:
 ```js
