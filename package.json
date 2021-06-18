@@ -1,6 +1,6 @@
 {
     "name": "filepond-plugin-get-file",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "description": "Get File Plugin for FilePond",
     "license": "MIT",
     "author": {
@@ -36,6 +36,7 @@
         "@babel/preset-env": "^7.14.5",
         "autoprefixer": "^10.2.6",
         "cssnano": "^5.0.6",
+        "css-what": ">=5.0.1",
         "node-sass": "^6.0.0",
         "postcss": "^8.3.5",
         "postcss-cli": "8.3.1",
@@ -47,6 +48,7 @@
         "rollup-plugin-node-resolve": "^5.2.0",
         "rollup-plugin-prettier": "^2.1.0",
         "rollup-plugin-terser": "^7.0.2",
+        "trim-newlines": ">=4.0.2",
         "dot-prop": ">=6.0.1"
     }
 }
