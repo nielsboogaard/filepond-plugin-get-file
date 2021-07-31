@@ -5,7 +5,7 @@ export const registerDownloadComponent = (item, el, labelButtonDownload, allowDo
     const info = el.querySelector('.filepond--file-info-main'),
           downloadIcon = getDownloadIcon(labelButtonDownload);
 
-    info.prepend(downloadIcon);
+    info.innerHTML = downloadIcon.outerHTML + item.file.name;
     downloadIcon.addEventListener("click", () => downloadFile(item, allowDownloadByUrl));
 }
 
