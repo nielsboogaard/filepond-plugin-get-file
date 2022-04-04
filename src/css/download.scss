@@ -19,3 +19,9 @@
 .filepond--magnify-icon:hover {
     background: rgba(#fff, .5);
 }
+
+.filepond--file-info-main-container {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+}

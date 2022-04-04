@@ -28,3 +28,9 @@
 .filepond--magnify-icon:hover {
   background: rgba(255, 255, 255, 0.5);
 }
+
+.filepond--file-info-main-container {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+}

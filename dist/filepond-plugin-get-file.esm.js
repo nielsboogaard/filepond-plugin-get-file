@@ -15,10 +15,19 @@ const registerDownloadComponent = (
   labelButtonDownload,
   allowDownloadByUrl
 ) => {
-  const info = el.querySelector('.filepond--file-info-main'),
+  const info = el.querySelector('.filepond--file-info'),
+    mainInfo = el.querySelector('.filepond--file-info-main'),
     downloadIcon = getDownloadIcon(labelButtonDownload);
 
-  info.prepend(downloadIcon);
+  let container = el.querySelector('.filepond--file-info-main-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.className = 'filepond--file-info-main-container';
+    container.append(mainInfo);
+    info.prepend(container);
+  }
+
+  container.prepend(downloadIcon);
   downloadIcon.addEventListener('click', () =>
     downloadFile(item, allowDownloadByUrl)
   );
