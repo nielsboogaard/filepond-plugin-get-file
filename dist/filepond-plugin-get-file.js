@@ -24,7 +24,8 @@
     item,
     el,
     labelButtonDownload,
-    allowDownloadByUrl
+    allowDownloadByUrl,
+    downloadFunction
   ) => {
     const info = el.querySelector('.filepond--file-info'),
       mainInfo = el.querySelector('.filepond--file-info-main'),
@@ -40,7 +41,7 @@
 
     container.prepend(downloadIcon);
     downloadIcon.addEventListener('click', () =>
-      downloadFile(item, allowDownloadByUrl)
+      downloadFile(item, allowDownloadByUrl, downloadFunction)
     );
   };
   /**
@@ -57,8 +58,12 @@
    * Triggers the actual download of the uploaded file
    */
 
-  const downloadFile = (item, allowDownloadByUrl) => {
-    // if client want to download file from remote server
+  const downloadFile = (item, allowDownloadByUrl, downloadFunction) => {
+    if (downloadFunction && typeof downloadFunction === 'function') {
+      downloadFunction(item);
+      return;
+    } // if client want to download file from remote server
+
     if (allowDownloadByUrl && item.getMetadata('url')) {
       location.href = item.getMetadata('url'); // full path to remote server is stored in metadata with key 'url'
     } else {
@@ -103,11 +108,13 @@
           'GET_LABEL_BUTTON_DOWNLOAD_ITEM'
         );
         const allowDownloadByUrl = root.query('GET_ALLOW_DOWNLOAD_BY_URL');
+        const downloadFunction = root.query('GET_DOWNLOAD_FUNCTION');
         registerDownloadComponent(
           item,
           root.element,
           labelButtonDownload,
-          allowDownloadByUrl
+          allowDownloadByUrl,
+          downloadFunction
         );
       }; // start writing
 
@@ -130,6 +137,7 @@
       options: {
         labelButtonDownloadItem: ['Download file', Type.STRING],
         allowDownloadByUrl: [false, Type.BOOLEAN],
+        downloadFunction: [null, Type.FUNCTION],
       },
     };
   }; // fire pluginloaded event if running in browser, this allows registering the plugin when using async script tags

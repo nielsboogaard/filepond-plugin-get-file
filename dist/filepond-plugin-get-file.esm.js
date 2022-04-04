@@ -13,7 +13,8 @@ const registerDownloadComponent = (
   item,
   el,
   labelButtonDownload,
-  allowDownloadByUrl
+  allowDownloadByUrl,
+  downloadFunction
 ) => {
   const info = el.querySelector('.filepond--file-info'),
     mainInfo = el.querySelector('.filepond--file-info-main'),
@@ -29,7 +30,7 @@ const registerDownloadComponent = (
 
   container.prepend(downloadIcon);
   downloadIcon.addEventListener('click', () =>
-    downloadFile(item, allowDownloadByUrl)
+    downloadFile(item, allowDownloadByUrl, downloadFunction)
   );
 };
 
@@ -46,7 +47,11 @@ const getDownloadIcon = (labelButtonDownload) => {
 /**
  * Triggers the actual download of the uploaded file
  */
-const downloadFile = (item, allowDownloadByUrl) => {
+const downloadFile = (item, allowDownloadByUrl, downloadFunction) => {
+  if (downloadFunction && typeof downloadFunction === 'function') {
+    downloadFunction(item);
+    return;
+  }
   // if client want to download file from remote server
   if (allowDownloadByUrl && item.getMetadata('url')) {
     location.href = item.getMetadata('url'); // full path to remote server is stored in metadata with key 'url'
@@ -95,11 +100,14 @@ const plugin = (fpAPI) => {
 
       const allowDownloadByUrl = root.query('GET_ALLOW_DOWNLOAD_BY_URL');
 
+      const downloadFunction = root.query('GET_DOWNLOAD_FUNCTION');
+
       registerDownloadComponent(
         item,
         root.element,
         labelButtonDownload,
-        allowDownloadByUrl
+        allowDownloadByUrl,
+        downloadFunction
       );
     };
 
@@ -125,6 +133,7 @@ const plugin = (fpAPI) => {
     options: {
       labelButtonDownloadItem: ['Download file', Type.STRING],
       allowDownloadByUrl: [false, Type.BOOLEAN],
+      downloadFunction: [null, Type.FUNCTION],
     },
   };
 };

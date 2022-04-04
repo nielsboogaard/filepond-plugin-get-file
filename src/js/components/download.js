@@ -1,7 +1,7 @@
 /**
  * Register the download component by inserting the download icon
  */
-export const registerDownloadComponent = (item, el, labelButtonDownload, allowDownloadByUrl) => {
+export const registerDownloadComponent = (item, el, labelButtonDownload, allowDownloadByUrl, downloadFunction) => {
     const info = el.querySelector('.filepond--file-info'),
         mainInfo = el.querySelector('.filepond--file-info-main'),
         downloadIcon = getDownloadIcon(labelButtonDownload);
@@ -15,7 +15,7 @@ export const registerDownloadComponent = (item, el, labelButtonDownload, allowDo
     }
 
     container.prepend(downloadIcon);
-    downloadIcon.addEventListener("click", () => downloadFile(item, allowDownloadByUrl));
+    downloadIcon.addEventListener("click", () => downloadFile(item, allowDownloadByUrl, downloadFunction));
 }
 
 /**
@@ -31,7 +31,11 @@ export const getDownloadIcon = (labelButtonDownload) => {
 /**
  * Triggers the actual download of the uploaded file
  */
-export const downloadFile = (item, allowDownloadByUrl) => {
+export const downloadFile = (item, allowDownloadByUrl, downloadFunction) => {
+    if (downloadFunction && typeof downloadFunction === 'function') {
+      downloadFunction(item);
+      return;
+    }
     // if client want to download file from remote server
     if(allowDownloadByUrl && item.getMetadata('url')) {
         location.href = item.getMetadata('url'); // full path to remote server is stored in metadata with key 'url'

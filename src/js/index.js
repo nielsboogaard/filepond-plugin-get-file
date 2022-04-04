@@ -32,7 +32,9 @@ const plugin = fpAPI => {
 
             const allowDownloadByUrl = root.query('GET_ALLOW_DOWNLOAD_BY_URL');
 
-            registerDownloadComponent(item, root.element, labelButtonDownload, allowDownloadByUrl);
+            const downloadFunction = root.query('GET_DOWNLOAD_FUNCTION');
+
+            registerDownloadComponent(item, root.element, labelButtonDownload, allowDownloadByUrl, downloadFunction);
         };
 
         // start writing
@@ -54,6 +56,7 @@ const plugin = fpAPI => {
         options: {
             labelButtonDownloadItem: ['Download file', Type.STRING],
             allowDownloadByUrl: [false, Type.BOOLEAN],
+            downloadFunction: [null, Type.FUNCTION],
         }
     };
 };
