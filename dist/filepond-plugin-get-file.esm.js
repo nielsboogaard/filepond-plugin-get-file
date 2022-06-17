@@ -1,10 +1,8 @@
 /*!
- * FilePondPluginGetFile 1.0.7
+ * FilePondPluginGetFile 1.0.8
  * Licensed under MIT, https://opensource.org/licenses/MIT/
  * Please visit undefined for details.
  */
-
-/* eslint-disable */
 
 /**
  * Register the download component by inserting the download icon
@@ -16,19 +14,22 @@ const registerDownloadComponent = (
   allowDownloadByUrl
 ) => {
   const info = el.querySelector('.filepond--file-info-main'),
-    downloadIcon = getDownloadIcon(labelButtonDownload);
+    downloadIcon = getDownloadIcon(labelButtonDownload, item);
 
   info.prepend(downloadIcon);
-  downloadIcon.addEventListener('click', () =>
-    downloadFile(item, allowDownloadByUrl)
-  );
+  if (!allowDownloadByUrl) {
+    downloadIcon.addEventListener('click', (e) => downloadFile(item, e));
+  }
 };
 
 /**
  * Generates the download icon
  */
-const getDownloadIcon = (labelButtonDownload) => {
-  let icon = document.createElement('span');
+const getDownloadIcon = (labelButtonDownload, item) => {
+  let icon = document.createElement('a');
+  icon.href = item.getMetadata('url') || item.source;
+  icon.target = '_blank';
+  icon.rel = 'noopener';
   icon.className = 'filepond--download-icon';
   icon.title = labelButtonDownload;
   return icon;
@@ -37,23 +38,17 @@ const getDownloadIcon = (labelButtonDownload) => {
 /**
  * Triggers the actual download of the uploaded file
  */
-const downloadFile = (item, allowDownloadByUrl) => {
-  // if client want to download file from remote server
-  if (allowDownloadByUrl && item.getMetadata('url')) {
-    location.href = item.getMetadata('url'); // full path to remote server is stored in metadata with key 'url'
-  } else {
-    // create a temporary hyperlink to force the browser to download the file
-    const a = document.createElement('a');
-    const url = window.URL.createObjectURL(item.file);
-    document.body.appendChild(a);
-    a.style.display = 'none';
-    a.href = url;
-    a.download = item.file.name;
-    a.click();
+const downloadFile = (item, e) => {
+  // create a temporary hyperlink to force the browser to download the file
+  const a = e.target;
+  const url = window.URL.createObjectURL(item.file);
+  a.href = url;
+  a.download = item.file.name;
 
+  setTimeout(() => {
     window.URL.revokeObjectURL(url);
-    a.remove();
-  }
+    a.href = item.getMetadata('url') || item.source;
+  }, 10);
 };
 
 /**
@@ -96,18 +91,9 @@ const plugin = (fpAPI) => {
 
     // start writing
     view.registerWriter(
-      createRoute(
-        {
-          DID_LOAD_ITEM: didLoadItem,
-        },
-        ({ root, props }) => {
-          const { id } = props;
-          const item = query('GET_ITEM', id);
-
-          // don't do anything while hidden
-          if (root.rect.element.hidden) return;
-        }
-      )
+      createRoute({
+        DID_LOAD_ITEM: didLoadItem,
+      })
     );
   });
 
@@ -129,4 +115,4 @@ if (isBrowser) {
   );
 }
 
-export default plugin;
+export { plugin as default };

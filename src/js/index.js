@@ -39,12 +39,6 @@ const plugin = fpAPI => {
         view.registerWriter(
             createRoute({
                 DID_LOAD_ITEM: didLoadItem
-            }, ({ root, props }) => {
-                const { id } = props;
-                const item = query('GET_ITEM', id);
-
-                // don't do anything while hidden
-                if (root.rect.element.hidden) return;
             })
         );
     });
