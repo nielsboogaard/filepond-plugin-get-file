@@ -7,7 +7,7 @@ export const registerDownloadComponent = (item, el, labelButtonDownload, allowDo
 
     info.prepend(downloadIcon);
     if (!allowDownloadByUrl) {
-        downloadIcon.addEventListener("click", (e) => downloadFile(item, e));
+        downloadIcon.addEventListener("click", () => downloadFile(item, downloadIcon));
     }
 }
 
@@ -27,9 +27,8 @@ export const getDownloadIcon = (labelButtonDownload, item) => {
 /**
  * Triggers the actual download of the uploaded file
  */
-export const downloadFile = (item, e) => {
+export const downloadFile = (item, a) => {
     // create a temporary hyperlink to force the browser to download the file
-    const a = e.target;
     const url = window.URL.createObjectURL(item.file);
     a.href = url;
     a.download = item.file.name;

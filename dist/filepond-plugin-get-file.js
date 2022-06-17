@@ -29,7 +29,9 @@
     info.prepend(downloadIcon);
 
     if (!allowDownloadByUrl) {
-      downloadIcon.addEventListener('click', (e) => downloadFile(item, e));
+      downloadIcon.addEventListener('click', () =>
+        downloadFile(item, downloadIcon)
+      );
     }
   };
   /**
@@ -49,9 +51,8 @@
    * Triggers the actual download of the uploaded file
    */
 
-  const downloadFile = (item, e) => {
+  const downloadFile = (item, a) => {
     // create a temporary hyperlink to force the browser to download the file
-    const a = e.target;
     const url = window.URL.createObjectURL(item.file);
     a.href = url;
     a.download = item.file.name;
