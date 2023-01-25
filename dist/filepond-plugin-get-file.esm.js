@@ -1,5 +1,5 @@
 /*!
- * FilePondPluginGetFile 1.0.7
+ * FilePondPluginGetFile 1.1.0
  * Licensed under MIT, https://opensource.org/licenses/MIT/
  * Please visit undefined for details.
  */
@@ -147,4 +147,4 @@ if (isBrowser) {
   );
 }
 
-export default plugin;
+export { plugin as default };

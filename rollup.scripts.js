@@ -1,4 +1,4 @@
-import babel from 'rollup-plugin-babel';
+import babel from '@rollup/plugin-babel';
 import license from 'rollup-plugin-license';
 import { terser } from 'rollup-plugin-terser';
 import prettier from 'rollup-plugin-prettier';
@@ -21,6 +21,7 @@ const createBuild = (options) => {
 	const plugins = [];
 	if (transpile) {
 		plugins.push(babel({
+			babelHelpers: 'bundled',
 			exclude: ['node_modules/**']
 		}))
 	}

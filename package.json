@@ -1,6 +1,6 @@
 {
     "name": "filepond-plugin-get-file",
-    "version": "1.0.7",
+    "version": "1.1.0",
     "description": "Get File Plugin for FilePond",
     "license": "MIT",
     "author": {
@@ -17,38 +17,36 @@
         "Android >= 4.4"
     ],
     "files": [
-        "dist"
+        "dist",
+        "types/*.d.ts"
     ],
+    "types": "types/index.d.ts",
     "scripts": {
         "start": "npx rollup -c -w",
-        "build": "npm run scripts | npm run styles | npm run copy",
+        "build": "npm run scripts | npm run styles",
         "scripts": "npx rollup -c",
         "styles": "npm run styles:pretty && npm run styles:nano",
         "styles:pretty": "cat src/css/* | npx node-sass | npx postcss --no-map --use autoprefixer | npx prettier --single-quote --parser css | node banner-cli.js FilePondPluginmediaPreview > dist/filepond-plugin-get-file.css",
-        "styles:nano": "cat src/css/* | npx node-sass | npx postcss --no-map --use autoprefixer --use cssnano | node banner-cli.js FilePondPluginmediaPreview > dist/filepond-plugin-get-file.min.css",
-        "copy": "cp -r src/images/ dist/images"
+        "styles:nano": "cat src/css/* | npx node-sass | npx postcss --no-map --use autoprefixer --use cssnano | node banner-cli.js FilePondPluginmediaPreview > dist/filepond-plugin-get-file.min.css"
     },
     "peerDependencies": {
         "filepond": ">=4.x <5.x"
     },
     "devDependencies": {
-        "@babel/core": "^7.14.6",
-        "@babel/preset-env": "^7.14.5",
-        "autoprefixer": "^10.2.6",
-        "cssnano": "^5.0.6",
-        "css-what": ">=5.0.1",
-        "node-sass": "^7.0.0",
-        "postcss": "^8.3.5",
-        "postcss-cli": "8.3.1",
+        "@babel/core": "^7.18.5",
+        "@babel/preset-env": "^7.18.2",
+        "autoprefixer": "^10.4.7",
+        "cssnano": "^5.1.11",
+        "node-sass": "^7.0.1",
+        "postcss": "^8.4.14",
+        "postcss-cli": "9.1.0",
         "prettier": "^2.3.1",
-        "rollup": "^2.52.1",
-        "rollup-plugin-babel": "^4.4.0",
-        "rollup-plugin-commonjs": "^10.1.0",
-        "rollup-plugin-license": "^2.5.0",
-        "rollup-plugin-node-resolve": "^5.2.0",
-        "rollup-plugin-prettier": "^2.1.0",
-        "rollup-plugin-terser": "^7.0.2",
-        "trim-newlines": ">=4.0.2",
-        "dot-prop": ">=6.0.1"
+        "rollup": "^2.75.6",
+        "@rollup/plugin-babel": "^5.3.1",
+        "@rollup/plugin-commonjs": "^22.0.0",
+        "rollup-plugin-license": "^2.8.1",
+        "@rollup/plugin-node-resolve": "^13.3.0",
+        "rollup-plugin-prettier": "^2.2.2",
+        "rollup-plugin-terser": "^7.0.2"
     }
 }
