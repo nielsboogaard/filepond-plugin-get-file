@@ -53,21 +53,31 @@ const downloadFile = (item, allowDownloadByUrl, downloadFunction) => {
     return;
   }
   // if client want to download file from remote server
-  if (allowDownloadByUrl && item.getMetadata('url')) {
-    location.href = item.getMetadata('url'); // full path to remote server is stored in metadata with key 'url'
-  } else {
-    // create a temporary hyperlink to force the browser to download the file
-    const a = document.createElement('a');
-    const url = window.URL.createObjectURL(item.file);
-    document.body.appendChild(a);
-    a.style.display = 'none';
-    a.href = url;
-    a.download = item.file.name;
-    a.click();
+  let isDownloadingDirectly = allowDownloadByUrl && !!item.getMetadata('url');
 
-    window.URL.revokeObjectURL(url);
-    a.remove();
+  const a = document.createElement('a');
+
+  // item.getMetadate('url') should return full path to remote server is stored in metadata with key 'url'
+  const url = isDownloadingDirectly
+    ? item.getMetadata('url')
+    : window.URL.createObjectURL(item.file);
+
+  document.body.appendChild(a);
+  a.style.display = 'none';
+  a.href = url;
+
+  if (isDownloadingDirectly) {
+    a.target = '_blank';
   }
+
+  a.download = item.file.name;
+  a.click();
+
+  if (!isDownloadingDirectly) {
+    window.URL.revokeObjectURL(url);
+  }
+
+  a.remove();
 };
 
 /**
